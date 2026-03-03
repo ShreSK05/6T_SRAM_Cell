@@ -1,122 +1,163 @@
-6T CMOS SRAM Cell Design and Simulation (180nm Technology)
-📌 Project Overview
+# 6T CMOS SRAM Cell – LTspice Simulation (180nm Technology)
 
-This project presents the design and simulation of a 6-Transistor (6T) CMOS SRAM cell using 180nm CMOS technology in LTspice. The objective was to evaluate Read, Write, and Hold stability, extract Static Noise Margin (SNM), and measure standby leakage under realistic bitline loading conditions.
+---
 
-🧱 Technology and Device Parameters
-Parameter	Value
-Technology Node	180 nm
-Supply Voltage (VDD)	1.8 V
-Channel Length (L)	180 nm
-Pull-Up PMOS Width	2 µm
-Pull-Down NMOS Width	1 µm
-Access NMOS Width	1.2 µm
-Bitline Capacitance	150 fF
+## 📌 Project Overview
 
-All transistors use minimum channel length (L = 180nm).
+This project presents the design and simulation of a 6-Transistor (6T) CMOS SRAM cell using 180nm CMOS technology in LTspice.
 
-⚙️ Transistor Ratio Calculations
-1. Cell Ratio (CR)
+The SRAM cell consists of:
+- Two cross-coupled CMOS inverters
+- Two access NMOS transistors
+- Differential bitlines (BL and BLB)
+- Wordline control signal
+
+Supply voltage is 1.8 V and bitlines are precharged to 1.8 V.
+
+---
+
+## ⚙️ Circuit Parameters
+
+| Parameter | Value |
+|------------|--------|
+| Technology Node | 180 nm |
+| VDD | 1.8 V |
+| Channel Length (L) | 180 nm |
+| Pull-Up PMOS (M1, M2) | 2 µm / 180 nm |
+| Pull-Down NMOS (M3, M4) | 1 µm / 180 nm |
+| Access NMOS (M5, M6) | 1.2 µm / 180 nm |
+| Bitline Capacitance | 150 fF |
+| Wordline Signal | PULSE (0 → 1.8 V) |
+
+All transistors use minimum channel length (L = 180 nm).
+
+---
+
+## 🔢 Transistor Ratio Calculations
+
+### 1. Cell Ratio (CR)
 
 Definition:
 
-CR = (W/L)pull-down / (W/L)access
+CR = (W/L)_pull-down / (W/L)_access
 
-Since all devices have same channel length:
+Since L is same for all devices:
 
-CR = Wpull-down / Waccess
-CR = 1 / 1.2
-CR = 0.83
-2. Pull-Up Ratio (PR)
+CR = W_pull-down / W_access  
+CR = 1 / 1.2  
+CR = 0.83  
+
+---
+
+### 2. Pull-Up Ratio (PR)
 
 Definition:
 
-PR = (W/L)access / (W/L)pull-up
+PR = (W/L)_access / (W/L)_pull-up  
 
 Since L is constant:
 
-PR = Waccess / Wpull-up
-PR = 1.2 / 2
-PR = 0.6
-📊 Static Noise Margin (SNM)
-1. Hold SNM
+PR = W_access / W_pull-up  
+PR = 1.2 / 2  
+PR = 0.6  
 
-SNM is defined as the side length of the largest square embedded inside the butterfly curve obtained from DC transfer characteristics.
+---
 
-Mathematically:
+## 📊 Static Noise Margin (SNM)
 
-SNMhold = (Vtrip1 − Vtrip2) / 2
+### 1. Hold SNM
 
-From DC sweep simulation:
+Definition:
 
-SNMhold ≈ 0.24 V
-SNMhold ≈ 240 mV
-2. Read SNM
+SNM_hold = (V_trip1 − V_trip2) / 2  
 
-During read operation, the access transistor weakens the internal storage node.
+From DC butterfly curve simulation:
 
-SNMread = (Vread-trip1 − Vread-trip2) / 2
+SNM_hold ≈ 0.24 V  
+SNM_hold ≈ 240 mV  
 
-From simulation:
+---
 
-SNMread ≈ 0.18 V
-SNMread ≈ 180 mV
-🔍 Write Margin (WM)
+### 2. Read SNM
 
-Write Margin is defined as the minimum bitline voltage required to flip the stored state.
+Definition:
 
-WM = VDD − Vflip
+SNM_read = (V_read-trip1 − V_read-trip2) / 2  
 
 From simulation:
 
-WM ≈ 0.35 V
-WM ≈ 350 mV
-📉 Leakage Current Analysis
-Subthreshold Leakage Current
+SNM_read ≈ 0.18 V  
+SNM_read ≈ 180 mV  
 
-General equation:
+---
 
-Isub = I0 × exp((VGS − Vth) / (nVT))
+## 🔋 Write Margin (WM)
 
-Where:
+Definition:
 
-VT = kT/q
+WM = VDD − V_flip  
 
-n = subthreshold slope factor
+From simulation:
+
+WM ≈ 0.35 V  
+WM ≈ 350 mV  
+
+---
+
+## 🔋 Leakage Current Analysis
+
+### Subthreshold Leakage Equation
+
+I_sub = I0 × exp((V_GS − V_th) / (n V_T))  
+
+Where:  
+V_T = kT/q  
+n = subthreshold slope factor  
 
 Measured standby leakage (hold mode):
 
-Ileakage ≈ 18 nA – 35 nA
-⚡ Standby Power
-Pstandby = VDD × Ileakage
-Pstandby = 1.8 × 35 nA
-Pstandby ≈ 63 nW
-📈 DC Sweep Analysis
+I_leakage ≈ 18 nA – 35 nA  
 
-Performed DC voltage transfer characteristic sweep from 0 V to 1.8 V.
+---
 
-Butterfly curve generated using:
+## ⚡ Standby Power
 
-Vout1 = f(Vin)
-Vout2 = f⁻¹(Vin)
+P_standby = VDD × I_leakage  
 
-Maximum embedded square side length extracted as SNM.
+P_standby = 1.8 × 35 nA  
+P_standby ≈ 63 nW  
 
-📊 Final Performance Summary
-Parameter	Measured Value
-Hold SNM	≈ 240 mV
-Read SNM	≈ 180 mV
-Write Margin	≈ 350 mV
-Standby Leakage	18 – 35 nA
-Standby Power	≈ 63 nW
-Cell Ratio (CR)	0.83
-Pull-Up Ratio (PR)	0.6
-🛠 Simulations Performed
+---
 
-Transient analysis (functional verification)
+## 🔍 Operating Condition Summary
 
-DC sweep (Butterfly curve extraction)
+| Quantity | Value |
+|------------|--------|
+| Hold SNM | ≈ 240 mV |
+| Read SNM | ≈ 180 mV |
+| Write Margin | ≈ 350 mV |
+| Standby Leakage | 18 – 35 nA |
+| Standby Power | ≈ 63 nW |
+| Cell Ratio (CR) | 0.83 |
+| Pull-Up Ratio (PR) | 0.6 |
 
-Leakage current measurement
+---
 
-Write margin verification
+## 🛠 Simulations Performed
+
+- Transient analysis (Read / Write / Hold)
+- DC sweep analysis (Butterfly curve extraction)
+- Leakage current measurement
+- Stability verification under 150 fF bitline loading
+
+---
+
+## 📐 Device Operation
+
+- Cross-coupled inverters provide bistable storage.
+- Access NMOS transistors connect internal nodes to BL and BLB during read/write.
+- Pull-down NMOS ensures read stability.
+- Pull-up PMOS ensures data retention during hold.
+- Devices operate in saturation region during stable hold condition.
+
+---
