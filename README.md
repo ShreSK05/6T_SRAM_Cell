@@ -1,10 +1,9 @@
-📘 6T CMOS SRAM Cell Design and Simulation (180nm Technology)
+6T CMOS SRAM Cell Design and Simulation (180nm Technology)
 📌 Project Overview
 
-Designed and simulated a 6-Transistor (6T) CMOS SRAM cell in 180nm CMOS technology using LTspice.
-The objective was to analyze Read, Write, and Hold stability, evaluate Static Noise Margin (SNM), and measure standby leakage current under realistic bitline loading conditions.
+This project presents the design and simulation of a 6-Transistor (6T) CMOS SRAM cell using 180nm CMOS technology in LTspice. The objective was to evaluate Read, Write, and Hold stability, extract Static Noise Margin (SNM), and measure standby leakage under realistic bitline loading conditions.
 
-🧱 Technology & Device Parameters
+🧱 Technology and Device Parameters
 Parameter	Value
 Technology Node	180 nm
 Supply Voltage (VDD)	1.8 V
@@ -13,616 +12,98 @@ Pull-Up PMOS Width	2 µm
 Pull-Down NMOS Width	1 µm
 Access NMOS Width	1.2 µm
 Bitline Capacitance	150 fF
-Wordline Signal	PULSE (0 → 1.8V)
-⚙️ Transistor Sizing and Ratio Calculations
-1️⃣ Cell Ratio (CR)
+
+All transistors use minimum channel length (L = 180nm).
+
+⚙️ Transistor Ratio Calculations
+1. Cell Ratio (CR)
 
 Definition:
 
-𝐶
-𝑅
-=
-(
-𝑊
-/
-𝐿
-)
-𝑝
-𝑢
-𝑙
-𝑙
-−
-𝑑
-𝑜
-𝑤
-𝑛
-(
-𝑊
-/
-𝐿
-)
-𝑎
-𝑐
-𝑐
-𝑒
-𝑠
-𝑠
-CR=
-(W/L)
-access
-	​
+CR = (W/L)pull-down / (W/L)access
 
-(W/L)
-pull−down
-	​
+Since all devices have same channel length:
 
-	​
-
-
-Since length is same (180nm) for all devices:
-
-𝐶
-𝑅
-=
-𝑊
-𝑝
-𝑢
-𝑙
-𝑙
-−
-𝑑
-𝑜
-𝑤
-𝑛
-𝑊
-𝑎
-𝑐
-𝑐
-𝑒
-𝑠
-𝑠
-CR=
-W
-access
-	​
-
-W
-pull−down
-	​
-
-	​
-
-𝐶
-𝑅
-=
-1
-1.2
-CR=
-1.2
-1
-	​
-
-𝐶
-𝑅
-=
-0.83
-CR=0.83
-2️⃣ Pull-Up Ratio (PR)
+CR = Wpull-down / Waccess
+CR = 1 / 1.2
+CR = 0.83
+2. Pull-Up Ratio (PR)
 
 Definition:
 
-𝑃
-𝑅
-=
-(
-𝑊
-/
-𝐿
-)
-𝑎
-𝑐
-𝑐
-𝑒
-𝑠
-𝑠
-(
-𝑊
-/
-𝐿
-)
-𝑝
-𝑢
-𝑙
-𝑙
-−
-𝑢
-𝑝
-PR=
-(W/L)
-pull−up
-	​
+PR = (W/L)access / (W/L)pull-up
 
-(W/L)
-access
-	​
+Since L is constant:
 
-	​
-
-𝑃
-𝑅
-=
-𝑊
-𝑎
-𝑐
-𝑐
-𝑒
-𝑠
-𝑠
-𝑊
-𝑝
-𝑢
-𝑙
-𝑙
-−
-𝑢
-𝑝
-PR=
-W
-pull−up
-	​
-
-W
-access
-	​
-
-	​
-
-𝑃
-𝑅
-=
-1.2
-2
-PR=
-2
-1.2
-	​
-
-𝑃
-𝑅
-=
-0.6
-PR=0.6
+PR = Waccess / Wpull-up
+PR = 1.2 / 2
+PR = 0.6
 📊 Static Noise Margin (SNM)
-3️⃣ Hold Static Noise Margin
+1. Hold SNM
 
-Definition:
+SNM is defined as the side length of the largest square embedded inside the butterfly curve obtained from DC transfer characteristics.
 
-SNM is the side length of the largest square that can be embedded inside the butterfly curve obtained from DC transfer characteristics.
+Mathematically:
 
-𝑆
-𝑁
-𝑀
-ℎ
-𝑜
-𝑙
-𝑑
-=
-𝑉
-𝑡
-𝑟
-𝑖
-𝑝
-1
-−
-𝑉
-𝑡
-𝑟
-𝑖
-𝑝
-2
-2
-SNM
-hold
-	​
-
-=
-2
-V
-trip1
-	​
-
-−V
-trip2
-	​
-
-	​
-
+SNMhold = (Vtrip1 − Vtrip2) / 2
 
 From DC sweep simulation:
 
-𝑆
-𝑁
-𝑀
-ℎ
-𝑜
-𝑙
-𝑑
-≈
-0.24
-𝑉
-SNM
-hold
-	​
+SNMhold ≈ 0.24 V
+SNMhold ≈ 240 mV
+2. Read SNM
 
-≈0.24V
-𝑆
-𝑁
-𝑀
-ℎ
-𝑜
-𝑙
-𝑑
-≈
-240
-𝑚
-𝑉
-SNM
-hold
-	​
+During read operation, the access transistor weakens the internal storage node.
 
-≈240mV
-4️⃣ Read Static Noise Margin
-
-During read operation, access transistor weakens the internal node.
-
-𝑆
-𝑁
-𝑀
-𝑟
-𝑒
-𝑎
-𝑑
-=
-𝑉
-𝑟
-𝑒
-𝑎
-𝑑
-−
-𝑡
-𝑟
-𝑖
-𝑝
-1
-−
-𝑉
-𝑟
-𝑒
-𝑎
-𝑑
-−
-𝑡
-𝑟
-𝑖
-𝑝
-2
-2
-SNM
-read
-	​
-
-=
-2
-V
-read−trip1
-	​
-
-−V
-read−trip2
-	​
-
-	​
-
+SNMread = (Vread-trip1 − Vread-trip2) / 2
 
 From simulation:
 
-𝑆
-𝑁
-𝑀
-𝑟
-𝑒
-𝑎
-𝑑
-≈
-0.18
-𝑉
-SNM
-read
-	​
+SNMread ≈ 0.18 V
+SNMread ≈ 180 mV
+🔍 Write Margin (WM)
 
-≈0.18V
-𝑆
-𝑁
-𝑀
-𝑟
-𝑒
-𝑎
-𝑑
-≈
-180
-𝑚
-𝑉
-SNM
-read
-	​
+Write Margin is defined as the minimum bitline voltage required to flip the stored state.
 
-≈180mV
+WM = VDD − Vflip
+
+From simulation:
+
+WM ≈ 0.35 V
+WM ≈ 350 mV
 📉 Leakage Current Analysis
-5️⃣ Subthreshold Leakage Current
+Subthreshold Leakage Current
 
-Subthreshold leakage is given by:
+General equation:
 
-𝐼
-𝑠
-𝑢
-𝑏
-=
-𝐼
-0
-𝑒
-𝑉
-𝐺
-𝑆
-−
-𝑉
-𝑡
-ℎ
-𝑛
-𝑉
-𝑇
-I
-sub
-	​
-
-=I
-0
-	​
-
-e
-nV
-T
-	​
-
-V
-GS
-	​
-
-−V
-th
-	​
-
-	​
-
+Isub = I0 × exp((VGS − Vth) / (nVT))
 
 Where:
 
-𝑉
-𝑇
-=
-𝑘
-𝑇
-𝑞
-V
-T
-	​
+VT = kT/q
 
-=
-q
-kT
-	​
-
-
-𝑛
 n = subthreshold slope factor
 
-Measured standby leakage during hold mode:
+Measured standby leakage (hold mode):
 
-𝐼
-𝑙
-𝑒
-𝑎
-𝑘
-𝑎
-𝑔
-𝑒
-≈
-18
- nA
-  
-to
-  
-35
- nA
-I
-leakage
-	​
+Ileakage ≈ 18 nA – 35 nA
+⚡ Standby Power
+Pstandby = VDD × Ileakage
+Pstandby = 1.8 × 35 nA
+Pstandby ≈ 63 nW
+📈 DC Sweep Analysis
 
-≈18 nAto35 nA
-6️⃣ Total Cell Standby Power
-𝑃
-𝑠
-𝑡
-𝑎
-𝑛
-𝑑
-𝑏
-𝑦
-=
-𝑉
-𝐷
-𝐷
-×
-𝐼
-𝑙
-𝑒
-𝑎
-𝑘
-𝑎
-𝑔
-𝑒
-P
-standby
-	​
+Performed DC voltage transfer characteristic sweep from 0 V to 1.8 V.
 
-=V
-DD
-	​
+Butterfly curve generated using:
 
-×I
-leakage
-	​
+Vout1 = f(Vin)
+Vout2 = f⁻¹(Vin)
 
-𝑃
-𝑠
-𝑡
-𝑎
-𝑛
-𝑑
-𝑏
-𝑦
-=
-1.8
-×
-35
- nA
-P
-standby
-	​
+Maximum embedded square side length extracted as SNM.
 
-=1.8×35 nA
-𝑃
-𝑠
-𝑡
-𝑎
-𝑛
-𝑑
-𝑏
-𝑦
-≈
-63
- nW
-P
-standby
-	​
-
-≈63 nW
-📈 Write Margin
-
-Write margin is defined as the minimum bitline voltage required to flip the stored state.
-
-𝑊
-𝑀
-=
-𝑉
-𝐷
-𝐷
-−
-𝑉
-𝑓
-𝑙
-𝑖
-𝑝
-WM=V
-DD
-	​
-
-−V
-flip
-	​
-
-
-From simulation:
-
-𝑊
-𝑀
-≈
-0.35
-𝑉
-WM≈0.35V
-𝑊
-𝑀
-≈
-350
-𝑚
-𝑉
-WM≈350mV
-🔍 DC Sweep Analysis
-
-DC voltage transfer characteristics were obtained by sweeping internal node voltage from 0 to 1.8V.
-
-Butterfly curve extracted using:
-
-𝑉
-𝑜
-𝑢
-𝑡
-1
-=
-𝑓
-(
-𝑉
-𝑖
-𝑛
-)
-V
-out1
-	​
-
-=f(V
-in
-	​
-
-)
-𝑉
-𝑜
-𝑢
-𝑡
-2
-=
-𝑓
-−
-1
-(
-𝑉
-𝑖
-𝑛
-)
-V
-out2
-	​
-
-=f
-−1
-(V
-in
-	​
-
-)
-
-Maximum embedded square side length gives SNM.
-
-🛠 Simulations Performed
-
-Transient analysis for functional verification
-
-Leakage current measurement in hold mode
-
-Write margin extraction
-
-Bitline stability verification
-
-📊 Final Measured Performance Summary
-Parameter	Value
+📊 Final Performance Summary
+Parameter	Measured Value
 Hold SNM	≈ 240 mV
 Read SNM	≈ 180 mV
 Write Margin	≈ 350 mV
@@ -630,3 +111,12 @@ Standby Leakage	18 – 35 nA
 Standby Power	≈ 63 nW
 Cell Ratio (CR)	0.83
 Pull-Up Ratio (PR)	0.6
+🛠 Simulations Performed
+
+Transient analysis (functional verification)
+
+DC sweep (Butterfly curve extraction)
+
+Leakage current measurement
+
+Write margin verification
