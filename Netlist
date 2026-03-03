@@ -1,0 +1,98 @@
+* =====================================================
+* 6T CMOS SRAM CELL – 180nm Technology
+* VDD = 1.8V
+* Pull-up PMOS  W=2u   L=180n
+* Pull-down NMOS W=1u  L=180n
+* Access NMOS   W=1.2u L=180n
+* =====================================================
+
+**********************
+* SUPPLY
+**********************
+VDD vdd 0 1.8
+
+**********************
+* WORDLINE CONTROL
+* Uncomment required section for HOLD / READ / WRITE
+**********************
+
+* -------- HOLD MODE --------
+*VWL wl 0 0
+
+* -------- READ MODE --------
+*VWL wl 0 PULSE(0 1.8 5n 100p 100p 10n 20n)
+
+* -------- WRITE MODE --------
+VWL wl 0 PULSE(0 1.8 5n 100p 100p 10n 20n)
+
+**********************
+* BITLINES
+**********************
+
+* HOLD CONDITION (Precharged)
+*VBL  bl  0 1.8
+*VBLB blb 0 1.8
+
+* READ CONDITION (Precharged)
+*VBL  bl  0 1.8
+*VBLB blb 0 1.8
+
+* WRITE CONDITION (Write '0' to Q)
+VBL  bl  0 0
+VBLB blb 0 1.8
+
+**********************
+* BITLINE CAPACITANCE
+**********************
+CBL  bl  0 150f
+CBLB blb 0 150f
+
+**********************
+* INITIAL CONDITION
+**********************
+.ic V(Q)=1.8 V(QB)=0
+
+**********************
+* 6T SRAM TRANSISTORS
+**********************
+
+* Pull-up PMOS
+M1 Q   QB  vdd vdd PMOS W=2u L=180n
+M2 QB  Q   vdd vdd PMOS W=2u L=180n
+
+* Pull-down NMOS
+M3 Q   QB  0   0   NMOS W=1u L=180n
+M4 QB  Q   0   0   NMOS W=1u L=180n
+
+* Access NMOS
+M5 Q   wl  bl  0   NMOS W=1.2u L=180n
+M6 QB  wl  blb 0   NMOS W=1.2u L=180n
+
+**********************
+* SIMPLE 180nm MODELS
+**********************
+
+.model NMOS NMOS (
++ LEVEL=3
++ VTO=0.5
++ KP=200u
++ LAMBDA=0.05
++ PHI=0.6
++ GAMMA=0.4
+)
+
+.model PMOS PMOS (
++ LEVEL=3
++ VTO=-0.5
++ KP=100u
++ LAMBDA=0.05
++ PHI=0.6
++ GAMMA=0.4
+)
+
+**********************
+* SIMULATION CONTROL
+**********************
+.tran 0.01n 40n
+.options post=2
+.end
